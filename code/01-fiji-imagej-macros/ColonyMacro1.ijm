@@ -1,52 +1,26 @@
-name = getTitle()
-run("Duplicate...", "title=duplicate duplicate");
-selectWindow(name);
-setBatchMode(true);
-run("Split Channels");
-close();
-close();
-close();
-run("Grays");
-rename(name)
-setBatchMode(false);
-setTool("line");
+#@ Integer(label="Channel to use", min=1, max=4, style="slider") channel
+// There doesn't seem to be a way to query the number channels
+// in the above parameter input, so we assume a maximum of 4
+// found in RGBA color photographs.
 
-//makeLine(2280, 416, 2256, 2600);
-//run("Rotate... ", "angle=-0.63 grid=1 interpolation=Bicubic");
-//makeLine(4184, 480, 4184, 480);
-////setTool("zoom");
-////setTool("line");
-//makeLine(2695, 647, 2773, 643);
-//run("Out [-]");
-//run("Out [-]");
-//run("Out [-]");
-//run("Out [-]");
-//run("Out [-]");
-//run("Out [-]");
-//run("Out [-]");
-//makeLine(3512, 400, 3512, 400);
-//run("Subtract Background...", "rolling=39");
-//run("Median...", "radius=2");
-////setTool("oval");
-//makeOval(1576, 632, 1816, 1968);
-//makeOval(1384, 416, 1816, 1968);
-//makeOval(1384, 416, 1930, 2154);
-//makeOval(1192, 416, 2122, 2154);
-//run("Crop");
-//run("Add Slice");
-//setForegroundColor(255, 255, 255);
-//run("Fill", "slice");
-////setTool("rectangle");
-//makeRectangle(1132, 16, 976, 1000);
-//makeRectangle(1116, 12, 976, 1000);
-//makeRectangle(1116, 12, 992, 1004);
-//run("Crop");
-//makeRectangle(606, 908, 386, 96);
-//setBackgroundColor(0, 0, 0);
-//run("Clear", "stack");
-//run("Stack to Images");
-//run("Jpeg...");
-//saveAs("Tiff", "/Users/sophieengels/Desktop/HCT24_E3_R3_Temp.tif");
-//close();
-//saveAs("Tiff", "/Users/sophieengels/Desktop/HCT24_E3_R3.tif");
-//close();
+// Run faster with batch mode.
+setBatchMode(true);
+
+// Validate input.
+getDimensions(width, height, channels, slices, frames);
+if (channel > channels) {
+	exit(String.format("This image has only %.0f channels "+
+	                   "but you asked for channel %.0f!",
+	                   channels, channel));
+}
+// Select the requested channel.
+Stack.setChannel(channel);
+// Remove the other channels and discard the original image.
+run("Reduce Dimensionality...", " ");
+// Convert type from color to grayscale.
+run(String.format("%.0f-bit", bitDepth()));
+// Replace color LUT with grayscale for better visual contast.
+run("Grays");
+
+// Return to interactive mode.
+setBatchMode(false);
