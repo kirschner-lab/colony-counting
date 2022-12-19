@@ -1,18 +1,14 @@
-#@ Integer(label="Channel to use", min=1, max=4, style="slider") channel
-// There doesn't seem to be a way to query the number channels
-// in the above parameter input, so we assume a maximum of 4
-// found in RGBA color photographs.
+// Subsets the image to a particular channel and converts to grayscale.
+
+// CHANGE THIS NUMBER TO THE CHANNEL WITH THE HIGHEST CONTRAST!
+// 1 = Red
+// 2 = Green
+// 3 = Blue
+channel = 1;
 
 // Run faster with batch mode.
 setBatchMode(true);
 
-// Validate input.
-getDimensions(width, height, channels, slices, frames);
-if (channel > channels) {
-	exit(String.format("This image has only %.0f channels "+
-	                   "but you asked for channel %.0f!",
-	                   channels, channel));
-}
 // Select the requested channel.
 Stack.setChannel(channel);
 // Remove the other channels and discard the original image.
