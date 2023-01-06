@@ -20,3 +20,5 @@ run("Grays");
 
 // Return to interactive mode.
 setBatchMode(false);
+// Select the line tool for the next step of rotation.
+setTool("line");
