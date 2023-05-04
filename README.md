@@ -15,9 +15,9 @@ Instructions
 
 To run the tutorial, download three files:
 
-1. example.zip
-2. images.zip
-3. results.zip
+1. [example.zip](https://github.com/kirschner-lab/colony-counting/releases/download/v1.0/example.zip)
+2. [images.zip](https://doi.org/10.5281/zenodo.7896805)
+3. [results.zip](https://doi.org/10.5281/zenodo.7896821)
 
 Unpack the `example.zip` and `results.zip` files alongside each other.  Then
 unpack `images.zip` inside the `data/` directory that was unpacked from
