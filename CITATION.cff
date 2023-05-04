@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Nanda"
+  given-names: "Pariksheet"
+  orcid: "https://orcid.org/0000-0001-9726-4552"
+- family-names: "Engels"
+  given-names: "Sophie"
+- family-names: "Janakiraman"
+  given-names: "Soorya"
+title: "colony-counting"
+version: 1.0.0
+date-released: 2023-05-04
+url: "https://github.com/kirschner-lab/colony-counting"
