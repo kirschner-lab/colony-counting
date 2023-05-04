@@ -19,6 +19,10 @@ EXAMPLE_03_MERGE = $(PREFIX)/code/03-spreadsheet-cfu/cellprofiler.R
 
 EXAMPLE_04_PLOT = $(PREFIX)/code/04-plots/plot_abx_cfu.R
 
+EXAMPLE_DOC = \
+$(PREFIX)/LICENSE \
+$(PREFIX)/README.md
+
 EXAMPLE_RSTUDIO = $(PREFIX)/colony-counting.Rproj
 
 EXAMPLE = \
@@ -27,6 +31,7 @@ $(EXAMPLE_01_FIJI) \
 $(EXAMPLE_02_CELLPROFILER) \
 $(EXAMPLE_03_MERGE) \
 $(EXAMPLE_04_PLOT) \
+$(EXAMPLE_DOC) \
 $(EXAMPLE_RSTUDIO)
 
 PREFIX_R = $(PREFIX)/results
