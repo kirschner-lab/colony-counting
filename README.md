@@ -1,6 +1,8 @@
 Semi-automated colony-forming unit counting for biosafety level 3 laboratories
 ==============================================================================
 
+[![DOI](https://zenodo.org/badge/636337900.svg)](https://zenodo.org/badge/latestdoi/636337900)
+
 Summary
 -------
 
