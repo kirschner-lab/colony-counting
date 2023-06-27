@@ -47,7 +47,9 @@ df %>%
          color = "Antibiotic")
 
 ## Save the plot.
-scale <- 2.5
-ggsave("results/04-plots-cfu/log-log.png",
+scale <- 190 / 3 # mm
+ggsave("results/04-plots-cfu/log-log.jpg",
        width = 3 * scale,
-       height = 1 * scale)
+       height = 1 * scale,
+       units = "mm",
+       dpi = 300)

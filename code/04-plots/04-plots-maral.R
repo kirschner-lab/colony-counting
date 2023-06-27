@@ -6,7 +6,7 @@ library(tidyr)   # fill, separate
 library(ggplot2)
 library(broom)   # augment
 
-file_metadata <- "../../data/plateDescriptions_colonyCountPaper.xlsx"
+file_metadata <- "data/plateDescriptions_colonyCountPaper.xlsx"
 
 ## Conditions and treatment times.
 (df_cond <-
@@ -38,7 +38,7 @@ file_metadata <- "../../data/plateDescriptions_colonyCountPaper.xlsx"
      bind_rows(setNames(list("Untreated", "Unt", 0.0, 0L), colnames(.)))
 )
 
-file_csv <- "../../results/03-spreadsheet-cfu/Bactericidal Assay Data.xlsx"
+file_csv <- "results/03-spreadsheet-cfu/Bactericidal Assay Data.xlsx"
 sheets <-
     excel_sheets(file_csv) %>%
     subset(! str_detect(., "Averaged|0[.]75|^Sheet|^DormT2$"))

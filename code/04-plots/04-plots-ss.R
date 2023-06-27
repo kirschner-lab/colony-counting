@@ -4,12 +4,13 @@ library(stringr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(scales)
 library(broom)
 library(forcats)
 
 ## Read all observations to check agreement between manual and
 ## automated counts.
-file_csv_all <- "../../data/data-collection.csv"
+file_csv_all <- "data/data-collection.csv"
 df_all <-
     read_csv(file_csv_all, show_col_types = FALSE) %>%
     `colnames<-`(c("plate", "trt", "time", "drug", "drug_conc", "rep",
@@ -32,8 +33,27 @@ ggplot(df_fit, aes(count_manual, count_auto)) +
     coord_fixed() +
     ## geom_abline(slope = 1, intercept = c(0, 0)) +
     geom_smooth(method = "lm", formula = y ~ x - 1) + # -1 omits the intercept.
-    ggtitle("Comparison of CellProfiler to manual colony counts per quadrant") +
     labs(x = "Manual count", y = "Semi-automatic count")
+
+breaks = trans_breaks("log10", function(x) 10^x, n = 4)
+labels = trans_format("log10", math_format(10^.x))
+limits = c(10^0, 10^3)
+ggplot(df_fit, aes(count_manual, count_auto)) +
+    geom_point(alpha = .5) +
+    scale_x_log10(breaks = breaks, labels = labels, limits = limits) +
+    scale_y_log10(breaks = breaks, labels = labels, limits = limits) +
+    ## geom_abline(slope = 1, intercept = c(0, 0)) +
+    geom_smooth(method = "lm", formula = y ~ x - 1) + # -1 omits the intercept.
+    labs(x = "Manual count", y = "Semi-automatic count")
+
+scale <- 190 / 3 # mm
+ggsave("results/04-plots-cfu/manual-semiauto.jpg",
+       width = 3 * scale,
+       height = 3 * scale,
+       units = "mm",
+       dpi = 300)
+
+df_fit
 
 ## Show error.
 df_fit %>%
@@ -45,11 +65,14 @@ df_fit %>%
 df_fit %>%
     ggplot(aes(.resid)) +
     geom_histogram(aes(y = ..density..), binwidth = 5) +
-    stat_function(fun = dnorm,
+    stat_function(color = "red",
+                  fun = dnorm,
                   args = list(
                       mean = mean(df_fit$.resid, na.rm = TRUE),
-                      sd = sd(df_fit$.resid, na.rm = TRUE))) +
-    ggtitle("Residual density fitted to a Normal distribution")
+                      sd = sd(df_fit$.resid, na.rm = TRUE)))##  +
+    ## ggtitle("Residual density fitted to a Normal distribution")
+
+
 
 ## Sanity check group sizes.
 df %>%
@@ -83,7 +106,7 @@ df_med %>%
          x = "[drug]")
 
 ## Read in concentrations.
-file_metadata <- "../../data/plateDescriptions_colonyCountPaper.xlsx"
+file_metadata <- "data/plateDescriptions_colonyCountPaper.xlsx"
 (df_abx <-
      read_excel(file_metadata, skip = 11, n_max = 13) %>%
      fill(1) %>%
@@ -96,7 +119,7 @@ file_metadata <- "../../data/plateDescriptions_colonyCountPaper.xlsx"
 )
 
 ## Read only the usable data.
-file_csv <- "../../data/usable-data.csv"
+file_csv <- "data/usable-data.csv"
 df <-
     read_csv(file_csv, col_select = 1:9, show_col_types = FALSE) %>%
     rename(image = 1, cond = 2, time_days = 3, abx_label = 4, conc_label = 5,
@@ -133,7 +156,7 @@ df %>%
          y = "CFU concentration (CFU/ml)",
          color = "Antibiotic")
 
-ggsave("../../results/04-plots-cfu/log_drug-log_cfu.pdf", )
+ggsave("results/04-plots-cfu/log_drug-log_cfu.pdf", )
 
 ## Plot error bar trajectories.
 df %>%
@@ -159,4 +182,4 @@ df %>%
          y = "CFU concentration (CFU/ml)",
          color = "Antibiotic")
 
-ggsave("../../results/04-plots-cfu/log_drug-log_cfu-errorbar.pdf", )
+ggsave("results/04-plots-cfu/log_drug-log_cfu-errorbar.pdf", )
